@@ -11,6 +11,7 @@ DecodeAssistant  中文名: 解码助手
    3、BurpSuite Pro 1.6.27
    4、JDK 1.7.013
    5、PyCharm
+
 期望实现：
    1、识别Unicode编码，支持\u8fd9\u662f 、%u6211%u662F 两种形式解码.
    2、识别Hex编码，支持\x22\x5B 、 0x220x5B 、 0x225B64 、\x225B64四种形式解码.
