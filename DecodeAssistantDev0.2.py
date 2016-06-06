@@ -76,7 +76,7 @@ root u'\u4f60\u4ee5\u4e3a\u6709\u91cd\u8981\u4fe1\u606f\u4e48\uff1f'
 
     def getTabCaption(self):
         return "DecodeAssistantDev0.2"
-    #
+
     def getUiComponent(self):
         return self._jPanel
 
@@ -101,7 +101,7 @@ root u'\u4f60\u4ee5\u4e3a\u6709\u91cd\u8981\u4fe1\u606f\u4e48\uff1f'
 
     # 输出调试日志
     def help_out(self, type, encrypt_string, decrypt_string):
-        if len(decrypt_string)>0:
+        if len(decrypt_string) > 0:
             print "===="*39
             print "Encryption_String : "
             print encrypt_string.strip()
@@ -131,25 +131,30 @@ root u'\u4f60\u4ee5\u4e3a\u6709\u91cd\u8981\u4fe1\u606f\u4e48\uff1f'
 
     # Hex解码
     def decodeHex(self, encrypt_string):
+        print "Hex is on..."
         decrypt_string = encrypt_string
-        # \x22\x5B\x64 形式
         try:
             # remodle_one = re.compile(r'(?:\\x[\d\w]{2})+')
             # 匹配四种形式的: \x22\x5B 和 0x220x5B 和 0x225B64 和 \x225B64
             remodle_one = re.compile(r'(?:[\\0]x[\S]{2,})+')
             list_hex = remodle_one.findall(decrypt_string)
+            print "+++"*30
+            print list_hex
+            print "+++"*30
             if len(list_hex) > 0:
                 for item in list_hex:
                     if '0x' in item:
                         itemtemp = item.replace("0x", "")
                         u_char = binascii.a2b_hex(itemtemp)
                     else:
-                        u_char = binascii.a2b_hex(itemtemp)
-                        # u_char = (item).decode('unicode_escape').encode('utf8')
+                        # u_char = binascii.a2b_hex(item.encode('hex'))
+                        u_char = item.replace("\n", "")
+                        u_char = binascii.a2b_hex(u_char.replace("\\x", "")).decode()
                     self.help_out(type="Hex", encrypt_string=item, decrypt_string=u_char)
                     decrypt_string = decrypt_string.replace(item, u_char)
-        except:
-            pass
+        except Exception, e:
+            print e
+            return str(e)
         return decrypt_string
 
     # Base64解码
