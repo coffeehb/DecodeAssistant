@@ -9,10 +9,15 @@ DecodeAssistant  中文名: 解码助手
 开发与测试环境：
 
    1、 Python2.7.8
+   
    2、Jython2.5.3
+   
    3、BurpSuite Pro 1.6.27
+   
    4、JDK 1.7.013
+   
    5、PyCharm
+
 
 期望实现：
 
