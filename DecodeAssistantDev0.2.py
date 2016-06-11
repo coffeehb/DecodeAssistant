@@ -87,17 +87,19 @@ root u'\u4f60\u4ee5\u4e3a\u6709\u91cd\u8981\u4fe1\u606f\u4e48\uff1f'
             decrypt_string = self.decodeUnicode(encrypt_string)
             # Hex解码
             decrypt_string = self.decodeHex(decrypt_string)
-            # Base64解码
+            # # Base64解码
             decrypt_string = self.decodeBase64(decrypt_string)
-            # 输出到文本框
-            decode_string = "==="*25 + u"Encode Text" + "==="*25+"\n"
-            decode_string = decode_string + encrypt_string + "\n"
-            decode_string = decode_string + "===="*45+"\n"
-            decode_string = decode_string + "==="*25 + u"Decode Text" + "==="*25+"\n"
-            decode_string = decode_string + decrypt_string
-            self._jTextIn.setText(decode_string.decode('utf8'))
+            # # 输出到文本框
+
+            message_info = "==="*25 + u"Encode Text" + "==="*25+"\n"
+            message_info = message_info + encrypt_string + "\n"
+            message_info = message_info + "===="*45+"\n"
+            message_info = message_info + "==="*25 + u"Decode Text" + "==="*25+"\n"
+            message_info = message_info + decrypt_string
+            self._jTextIn.setText(message_info)
+            # self._jTextIn.setText("Error is fuck ")
         except Exception, e:
-            self._jTextIn.setText(str(e))
+            return
 
     # 输出调试日志
     def help_out(self, type, encrypt_string, decrypt_string):
@@ -126,21 +128,18 @@ root u'\u4f60\u4ee5\u4e3a\u6709\u91cd\u8981\u4fe1\u606f\u4e48\uff1f'
                 except:
                     u_char = (item).decode('unicode_escape').encode('gbk')
                     self.help_out(type="Unicode", encrypt_string=item, decrypt_string=u_char)
-                decrypt_string = decrypt_string.replace(item, u_char)
+                # decrypt_string = decrypt_string.replace(item, u_char)
+                decrypt_string = decrypt_string.replace(item, u_char.decode("utf8"))
         return decrypt_string
 
     # Hex解码
     def decodeHex(self, encrypt_string):
-        print "Hex is on..."
         decrypt_string = encrypt_string
         try:
             # remodle_one = re.compile(r'(?:\\x[\d\w]{2})+')
             # 匹配四种形式的: \x22\x5B 和 0x220x5B 和 0x225B64 和 \x225B64
             remodle_one = re.compile(r'(?:[\\0]x[\S]{2,})+')
             list_hex = remodle_one.findall(decrypt_string)
-            print "+++"*30
-            print list_hex
-            print "+++"*30
             if len(list_hex) > 0:
                 for item in list_hex:
                     if '0x' in item:
